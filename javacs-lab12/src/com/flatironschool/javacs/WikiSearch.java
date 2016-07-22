@@ -1,3 +1,7 @@
+/**
+ * Edited by Lindsey Gillaspie
+ */
+
 package com.flatironschool.javacs;
 
 import java.io.IOException;
@@ -60,8 +64,15 @@ public class WikiSearch {
 	 * @return New WikiSearch object.
 	 */
 	public WikiSearch or(WikiSearch that) {
-        // FILL THIS IN!
-		return null;
+        // Completed this method
+		Map<String, Integer> combo = new HashMap<String, Integer>(map);
+		
+		for (String term: that.map.keySet()) {
+			int relevance = totalRelevance(this.getRelevance(term), that.getRelevance(term));
+			combo.put(term, relevance);
+		}
+		
+		return new WikiSearch(combo);
 	}
 	
 	/**
@@ -71,8 +82,16 @@ public class WikiSearch {
 	 * @return New WikiSearch object.
 	 */
 	public WikiSearch and(WikiSearch that) {
-        // FILL THIS IN!
-		return null;
+        // Completed this method
+		Map<String, Integer> combo = new HashMap<String, Integer>();
+		
+		for (String term: map.keySet()) {
+			if (that.map.containsKey(term)) {
+				int relevance = totalRelevance(this.map.get(term), that.map.get(term));
+				combo.put(term, relevance);
+			}
+		}
+		return new WikiSearch(combo);
 	}
 	
 	/**
@@ -82,8 +101,14 @@ public class WikiSearch {
 	 * @return New WikiSearch object.
 	 */
 	public WikiSearch minus(WikiSearch that) {
-        // FILL THIS IN!
-		return null;
+        // Completed this method
+		Map<String, Integer> diff = new HashMap<String, Integer>(map);
+		
+		for (String term: that.map.keySet()) {
+			diff.remove(term);
+		}
+		
+		return new WikiSearch(diff);
 	}
 	
 	/**
@@ -104,9 +129,22 @@ public class WikiSearch {
 	 * @return List of entries with URL and relevance.
 	 */
 	public List<Entry<String, Integer>> sort() {
-        // FILL THIS IN!
-		return null;
-	}
+        // Completed this method
+		// List of entries is made
+		List<Entry<String, Integer>> entries = new LinkedList<Entry<String, Integer>>(map.entrySet());
+
+		// Comparator object for sorting is made
+		Comparator<Entry<String, Integer>> comparator = new Comparator<Entry<String, Integer>>() {
+		@Override
+		public int compare(Entry<String, Integer> firstE, Entry<String, Integer> secondE) {
+	               return firstE.getValue().compareTo(secondE.getValue());		            
+		}
+	};
+									            
+        // Sort, then return the entries	
+        Collections.sort(entries, comparator);
+	return entries;
+											    } // end of sort()
 
 	/**
 	 * Performs a search and makes a WikiSearch object.

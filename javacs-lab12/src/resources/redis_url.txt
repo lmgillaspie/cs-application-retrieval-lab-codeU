@@ -1,0 +1,1 @@
+redis://redistogo:8e6fe5c6f359d424fcd9a747be466e55@slimehead.redistogo.com:9040
